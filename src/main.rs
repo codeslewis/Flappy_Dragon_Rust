@@ -35,6 +35,7 @@ impl State {
 
     fn restart(&mut self) {
         self.mode = GameMode::Playing;
+        self.score = 0;
     }
 
     fn main_menu(&mut self, ctx: &mut BTerm) {
@@ -54,8 +55,10 @@ impl State {
 
     fn dead(&mut self, ctx: &mut BTerm) {
         ctx.cls();
-        ctx.print_centered(5, "Welcome to Flappy Dragon");
-        ctx.print_centered(8, "Press \"P\" to Play");
+        ctx.print_centered(4, "You Died!");
+        let score_str = format!("Your score: {}", self.score);
+        ctx.print_centered(6, score_str);
+        ctx.print_centered(8, "Press \"P\" to Play Again");
         ctx.print_centered(9, "Press \"Q\" to Quit");
 
         if let Some(key) = ctx.key {
