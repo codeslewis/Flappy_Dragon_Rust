@@ -81,8 +81,16 @@ impl State {
         ctx.print_centered(0, "Press \"Space\" to flap!");
 
         self.obstacle.render(ctx, self.player.x);
+        if self.player.x > self.obstacle.x {
+            self.score += 1;
+            self.obstacle = Obstacle::new(
+                self.player.x + SCREEN_WIDTH,
+                self.score
+            )
+        }
 
-        if self.player.y > SCREEN_HEIGHT {
+        if self.player.y > SCREEN_HEIGHT ||
+            self.obstacle.hit_obstacle(&self.player) {
             self.mode = GameMode::End;
         }
     }
