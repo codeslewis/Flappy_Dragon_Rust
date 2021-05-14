@@ -1,5 +1,8 @@
 use bracket_lib::prelude::*;
 
+const SCREEN_HEIGHT: i32 = 100;
+const FRAME_DURATION: f32 = 2.0;
+
 enum GameMode {
     Menu,
     Playing,
@@ -16,7 +19,7 @@ impl State {
     fn new() -> Self {
         State {
             player: Player::new(5, 25),
-            frame_time: 0.0
+            frame_time: 0.0,
             mode: GameMode::Menu,
         }
     }
@@ -56,17 +59,19 @@ impl State {
     }
 
     fn play(&mut self, ctx: &mut BTerm) {
-        ctx.cls();
-        ctx.print_centered(5, "You are dead!");
-        ctx.print_centered(8, "Press \"P\" to Play");
-        ctx.print_centered(9, "Press \"Q\" to Quit");
-
-        if let Some(key) = ctx.key {
-            match key{
-                VirtualKeyCode::P => self.restart(),
-                VirtualKeyCode::Q => ctx.quitting = true,
-                _ => {}
-            }
+        ctx.cls_bg(NAVY);
+        self.frame_time += ctx.frame_time_ms;
+        if self.frame_time > FRAME_DURATION {
+            self.frame_time = 0.0;
+            self.player.gravity_and_move();
+        }
+        if let Some(VirtualKeyCode::Space) = ctx.key {
+            self.player.flap();
+        }
+        self.player.render(ctx);
+        ctx.print_centered(0, "Press \"Space\" to flap!");
+        if self.player.y > SCREEN_HEIGHT {
+            self.mode = GameMode::End;
         }
     }
 }
