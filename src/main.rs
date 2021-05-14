@@ -52,7 +52,18 @@ impl State {
     }
 
     fn play(&mut self, ctx: &mut BTerm) {
-        ctx.print_centered(6, "You are dead");
+        ctx.cls();
+        ctx.print_centered(5, "You are dead!");
+        ctx.print_centered(8, "Press \"P\" to Play");
+        ctx.print_centered(9, "Press \"Q\" to Quit");
+
+        if let Some(key) = ctx.key {
+            match key{
+                VirtualKeyCode::P => self.restart(),
+                VirtualKeyCode::Q => ctx.quitting = true,
+                _ => {}
+            }
+        }
     }
 }
 
