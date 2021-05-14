@@ -1,10 +1,10 @@
 use bracket_lib::prelude::*;
 
 const SCREEN_HEIGHT: i32 = 50;
-const FRAME_DURATION: f32 = 1.0;
-const TERMINAL_VELOCITY: f32 = 1.5;
-const GRAVITY: f32 = 0.15;
-const FLAP_VELOCITY: f32 = -1.5;
+const FRAME_DURATION: f32 = 30.0;
+const TERMINAL_VELOCITY: f32 = 2.0;
+const GRAVITY: f32 = 0.2;
+const FLAP_VELOCITY: f32 = -2.0;
 
 enum GameMode {
     Menu,
@@ -127,6 +127,23 @@ impl Player {
 
     fn flap(&mut self) {
         self.velocity = FLAP_VELOCITY;
+    }
+}
+
+struct Obstacle {
+    x: i32,
+    gap_y: i32,
+    size: i32,
+}
+
+impl Obstacle {
+    fn new(x: i32, score: i32) -> Self {
+        let mut random = RandomNumberGenerator::new();
+        Obstacle {
+            x,
+            gap_y: random.range(10, 40),
+            size: i32::max(2, 20 - score)
+        }
     }
 }
 
