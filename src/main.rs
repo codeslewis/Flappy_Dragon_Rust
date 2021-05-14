@@ -1,6 +1,8 @@
 use bracket_lib::prelude::*;
 
 const SCREEN_HEIGHT: i32 = 50;
+const SCREEN_WIDTH: i32 = 80;
+
 const FRAME_DURATION: f32 = 30.0;
 const TERMINAL_VELOCITY: f32 = 2.0;
 const GRAVITY: f32 = 0.2;
@@ -16,6 +18,8 @@ struct State {
     player: Player,
     frame_time: f32,
     mode: GameMode,
+    obstacle: Obstacle,
+    score: i32,
 }
 
 impl State {
@@ -24,6 +28,8 @@ impl State {
             player: Player::new(5, 25),
             frame_time: 0.0,
             mode: GameMode::Menu,
+            obstacle: Obstacle::new(SCREEN_WIDTH, 0),
+            score: 0,
         }
     }
 
