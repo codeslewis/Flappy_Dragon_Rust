@@ -1,7 +1,7 @@
 use bracket_lib::prelude::*;
 
-const SCREEN_HEIGHT: i32 = 100;
-const FRAME_DURATION: f32 = 2.0;
+const SCREEN_HEIGHT: i32 = 50;
+const FRAME_DURATION: f32 = 1.0;
 
 enum GameMode {
     Menu,
@@ -112,8 +112,8 @@ impl Player {
     }
 
     fn gravity_and_move(&mut self) {
-        if self.velocity < 2.0 {
-            self.velocity += 0.2;
+        if self.velocity < 1.5 {
+            self.velocity += 0.15;
         }
         self.y += self.velocity as i32;
         self.x += 1;
@@ -123,7 +123,7 @@ impl Player {
     }
 
     fn flap(&mut self) {
-        self.velocity = -2.0;
+        self.velocity = -1.5;
     }
 }
 
